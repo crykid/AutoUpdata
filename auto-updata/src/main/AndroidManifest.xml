@@ -11,7 +11,7 @@
         <!--区别标识符，跟getUri的一致，注意packageName/applicationId与BuildConfig.APPLICATION_ID不一定相同-->
         <provider
             android:name=".utils.AutoUploaderProvider"
-            android:authorities="com.crykid.updata.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
 
