@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<external-path>：外部存储空间根目录，等同于 Environment.getExternalStorageDirectory()-->
+
+    <!--name是别名，真实名字映射的名字，提供给外部的假名字，开头不用写斜杠-->
+    <!--path是真实目录,开头不用反斜杠，结尾也不用-->
+    <external-path
+        name="apk"
+        path="auto-updata" />
+
+
+</paths>
