@@ -24,7 +24,7 @@ public class AutoUpdataerInstaller {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+            Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
 
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
