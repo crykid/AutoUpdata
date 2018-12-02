@@ -11,9 +11,8 @@ public class AtApplication extends Application {
         AutoUpdataerConfig
                 .getInstance()
                 .url("https://test.95590.cn/nloan_test/aa.apk")
-                .desDir("auto-updata-apk","example.provider")
-//                .apkName("auto-updata")
-//                .apkName("")
+                .desDir("auto-updata-apk", "example.provider")
+                .apkName("auto-updata")
                 .forceUpdata(true)
                 .autoDelApk(true)
                 .configure();

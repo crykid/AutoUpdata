@@ -24,20 +24,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
         final String url = "";
-        AutoUpdataer
-                .getInstance()
-//                .url(url)
-                .dialog(this, new IAutoUpdataerCallback() {
-                    @Override
-                    public void uploadFailed() {
-                        Log.d(TAG, "uploadFailed: ");
-                    }
-
-                    @Override
-                    public void uploadSuccess() {
-                        Log.d(TAG, "uploadSuccess: ");
-                    }
-                });
+//        AutoUpdataer
+//                .getInstance()
+//                .url("www.test.com")
+//                .desDir("demo-dir", "example.provider")
+//                .apkName("test.apk")
+//                .forceUpdata(true)
+////                .notification()
+//                .dialog(this, new IAutoUpdataerCallback() {
+//                    @Override
+//                    public void uploadFailed() {
+//                        Log.d(TAG, "uploadFailed: ");
+//                    }
+//
+//                    @Override
+//                    public void uploadSuccess() {
+//                        Log.d(TAG, "uploadSuccess: ");
+//                    }
+//                });
+        AutoUpdataer.getInstance().dialog(this,null);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
