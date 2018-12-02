@@ -95,12 +95,50 @@ public interface IAutoUpdataerConfig {
 
 #### 3.2使用方式一：
 
-- Step1，在在Application中：
+- Step1,xml配置：
+
+> 1.在manifest中：
+
+```
+   <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.example.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/demo_provider_path" />
+        </provider>
+
+```
+
+> 2.然后在res>xml>添加demo\_provider\_path.xml：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--name对外展示文件名称，可随意设置-->
+    <!--path我们的目标文件夹名称-->
+    <external-path
+        name="apk"
+        path="auto-updata-apk" />
+</paths>
+
+
+```
+
+> 1.注意authorities和xml中的path这两个字段后面需要配置；
+
+> 2.注意，Step1操作都是可选的，同时Step1和后面的step2中desUrl(path，authroties)方法是绑定在一起的，配置了Step1，就需要将step1中的关键字段传入该方法中；
+
+- Step2,在Application中：
 
 ```
  AutoUpdataerConfig
                 .getInstance()
                 .url("https://www.test.com/aa.apk")
+                //demo_provider_path.xml中的path和Manifest中的authroties去掉applicationId的部分
                 .desDir("auto-updata-apk", "example.provider")
                 .apkName("auto-updata")
                 .forceUpdata(true)
@@ -110,7 +148,7 @@ public interface IAutoUpdataerConfig {
 
 > *注：以上参数中，除了url，其它配置方法都是可选的，我提供了默认的方式；
 
-- Step2,在需要升级的地方，例如SplashActivity，或HomeActivity中：
+- Step3,在需要升级的地方，例如SplashActivity，或HomeActivity中：
 
 ```
  		//不带回调的方式
@@ -175,5 +213,4 @@ public interface IAutoUpdataerConfig {
 - 当前仅仅有dialog更新的方式，还需要Notification更新方式，后续我很快会更新；
 
 - 现在进度弹窗暂时不可以控制文案，后续我会很快更新相关接口；
-
 
