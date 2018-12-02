@@ -24,25 +24,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
         final String url = "";
-//        AutoUpdataer
-//                .getInstance()
-//                .url("www.test.com")
-//                .desDir("demo-dir", "example.provider")
-//                .apkName("test.apk")
-//                .forceUpdata(true)
-////                .notification()
-//                .dialog(this, new IAutoUpdataerCallback() {
-//                    @Override
-//                    public void uploadFailed() {
-//                        Log.d(TAG, "uploadFailed: ");
-//                    }
-//
-//                    @Override
-//                    public void uploadSuccess() {
-//                        Log.d(TAG, "uploadSuccess: ");
-//                    }
-//                });
-        AutoUpdataer.getInstance().dialog(this,null);
+
+        //使用方式一，首先在Application中完成全部配置，然后在需要调用的地方调用下面代码
+        AutoUpdataer.getInstance().dialog(this);
+
+        AutoUpdataer.getInstance().dialog(this, new IAutoUpdataerCallback() {
+            @Override
+            public void uploadFailed() {
+
+            }
+
+            @Override
+            public void uploadSuccess() {
+
+            }
+        });
+
+
+        //使用方式二，不需要application中配置，全部在使用的时候再配置
+
+        AutoUpdataer
+                .getInstance()
+                //下载地址,需要完整的地址
+                .url("https://www.test.com")
+                //目标存储目录/文件夹 和authorities,需要您自己在manifest和xml中做相关配置
+                .desDir("demo-dir", "example.provider")
+                //apk文件名，可以不包含后缀
+                .apkName("test.apk")
+                //是否强制升级
+                .forceUpdata(true)
+                //通过dialog提示进度的方式升级
+                .dialog(this, new IAutoUpdataerCallback() {
+                    @Override
+                    public void uploadFailed() {
+                        Log.d(TAG, "uploadFailed: ");
+                    }
+
+                    @Override
+                    public void uploadSuccess() {
+                        Log.d(TAG, "uploadSuccess: ");
+                    }
+                });
     }
 
     public static void verifyStoragePermissions(Activity activity) {

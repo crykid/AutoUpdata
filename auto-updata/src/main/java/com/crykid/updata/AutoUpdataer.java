@@ -26,7 +26,6 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
     private String apkName;
     private String absFileName;
     private boolean forceUpdata;
-    private boolean autoDelApk;
 
 
     private AutoUpdataer() {
@@ -70,11 +69,7 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
         return this;
     }
 
-    @Override
-    public AutoUpdataer autoDelApk(boolean autoDel) {
-        AutoUpdataerConfig.getInstance().autoDelApk(autoDel);
-        return this;
-    }
+
 
 
     /**
@@ -89,7 +84,6 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
         authorities = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.FILEPROVIDER_AUTHORITIES);
         apkName = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.APK_NAME);
         forceUpdata = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.FORCE_UPDATA);
-        autoDelApk = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.AUTO_DEL_APK);
         absFileName = desDir + apkName;
 
     }

@@ -26,7 +26,6 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
     private String authorities;
     private String apkName;
     private boolean forceUpdata;
-    private boolean autoDelApk;
 
 
     private final static HashMap<ConfigEnum, Object> CONFIGS = new HashMap<>();
@@ -59,23 +58,22 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
         return this;
     }
 
+
     /**
-     * 设置apk下载目标文件夹名字，仅仅需要目标文件夹名字！！！</br>
-     * 可以包含"/'，也可以不包含"/",
-     * the name of destination directory for apk,it can end with "/" or not
-     *
-     * @param dir
+     * @param desDir      将要存储apk的文件夹名字
+     * @param authorities 文件夹的fileProvider的authorities，就是manifest里面的authorities（不包含applicationId）
+     *                    eg：name.provider,example.provider,test.provider
      * @return
      */
     @Override
-    public AutoUpdataerConfig desDir(String dir, String authorities) {
-        if (TextUtils.isEmpty(dir) || TextUtils.isEmpty(authorities)) {
+    public AutoUpdataerConfig desDir(String desDir, String authorities) {
+        if (TextUtils.isEmpty(desDir) || TextUtils.isEmpty(authorities)) {
             throw new NullPointerException("the name or authorities of destination  directory of apk  can not be empty !");
         }
-        if (!dir.endsWith("/")) {
-            this.desDir = dir + "/";
+        if (!desDir.endsWith("/")) {
+            this.desDir = desDir + "/";
         } else {
-            this.desDir = dir;
+            this.desDir = desDir;
         }
 
         if (authorities.startsWith(".")) {
@@ -109,7 +107,7 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
     /**
      * 是否强制升级
      *
-     * @param force
+     * @param force type boolean：true-强制升级（不可取消）
      * @return
      */
     @Override
@@ -118,17 +116,6 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
         return this;
     }
 
-    /**
-     * 是否自动删除安装包
-     *
-     * @param autoDel
-     * @return
-     */
-    @Override
-    public final AutoUpdataerConfig autoDelApk(boolean autoDel) {
-        this.autoDelApk = autoDel;
-        return this;
-    }
 
     /**
      * 配置默认项
@@ -138,7 +125,6 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
         this.authorities = Constants.DEFAULT_AUTHORITIES;
         this.apkName = FileUtils.defaultApkName();
         this.forceUpdata = false;
-        this.autoDelApk = false;
     }
 
     /**
@@ -150,7 +136,6 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
         CONFIGS.put(ConfigEnum.FILEPROVIDER_AUTHORITIES, authorities);
         CONFIGS.put(ConfigEnum.APK_NAME, apkName);
         CONFIGS.put(ConfigEnum.FORCE_UPDATA, forceUpdata);
-        CONFIGS.put(ConfigEnum.AUTO_DEL_APK, autoDelApk);
         CONFIGS.put(ConfigEnum.CONFIGURE_COMPLETE, true);
         //检查或创建目标文件夹
         FileUtils.checkOrCreateDir(desDir);

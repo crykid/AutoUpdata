@@ -14,7 +14,6 @@ public class AtApplication extends Application {
                 .desDir("auto-updata-apk", "example.provider")
                 .apkName("auto-updata")
                 .forceUpdata(true)
-                .autoDelApk(true)
                 .configure();
     }
 }

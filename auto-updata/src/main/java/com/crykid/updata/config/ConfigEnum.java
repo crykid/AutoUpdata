@@ -6,6 +6,12 @@ package com.crykid.updata.config;
  * Description: 全局配置枚举
  */
 public enum ConfigEnum {
+
+    /**
+     *
+     */
+    DOWNLOAD_URL,
+
     /**
      * apk下载目录
      */
@@ -23,14 +29,7 @@ public enum ConfigEnum {
      * 是否强制升级
      */
     FORCE_UPDATA,
-    /**
-     * 安装完毕是否自动删除apk文件
-     */
-    AUTO_DEL_APK,
-    /**
-     *
-     */
-    DOWNLOAD_URL,
+
 
     /**
      * 配置完成
