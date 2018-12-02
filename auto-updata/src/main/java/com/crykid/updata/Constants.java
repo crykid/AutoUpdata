@@ -17,6 +17,12 @@ public class Constants {
     public final static String DEFAULT_DIR = Environment.getExternalStorageDirectory() + "/" + "auto-updata";
 
     /**
+     * 默认的fiprovider的authorities
+     */
+    public final static String DEFAULT_AUTHORITIES = ".provider";
+
+
+    /**
      * 默认apk文件名
      */
     public final static String DEFAULT_APK_NAME = "auto_updata.apk";

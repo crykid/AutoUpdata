@@ -31,18 +31,21 @@ public class DialogUpload implements IStartUpload, Callback {
     private final String DOWNLOAD_URL;
     private ProgressDialog pd;
     private final String ABSTRACT_FILENAME;
+    private final String FILEPROVIDER_AUTHORITIES;
     private final IAutoUpdataerCallback UPLOAD_CALLBACK;
 
     /**
      * @param url         下载地址
      * @param absFileName apk存储目标文件夹+名字
+     * @param authorities apk所在目录的fileProvider的authorities
      * @param pd          progressDialog
      * @param callback    IAutoUpdataerCallback，用于通知升级结果
      */
-    public DialogUpload(Context context, String url, String absFileName, ProgressDialog pd, IAutoUpdataerCallback callback) {
+    public DialogUpload(Context context, String url, String absFileName, String authorities, ProgressDialog pd, IAutoUpdataerCallback callback) {
         this.mContext = context;
         this.DOWNLOAD_URL = url;
         this.ABSTRACT_FILENAME = absFileName;
+        this.FILEPROVIDER_AUTHORITIES = authorities;
         this.pd = pd;
         this.UPLOAD_CALLBACK = callback;
     }
@@ -64,37 +67,7 @@ public class DialogUpload implements IStartUpload, Callback {
      */
     private void addDownloadListener(String intercepteTarget, final ProgressDialog pd) {
         //下载进度监听
-        ProgressManager.getInstance().addResponseListener(intercepteTarget, new ProgressListener() {
-            @Override
-            public void onProgress(ProgressInfo progressInfo) {
-
-                double curent = progressInfo.getCurrentbytes();
-                double total = progressInfo.getContentLength();
-                //计算进度
-                double percent = curent / total;
-                //进度只能是0-100的整数
-                int progress = (int) (percent * 100);
-
-                if (pd != null) {
-                    pd.setProgress(progress);
-                    Log.d(TAG, "onProgress: " + progress);
-                    //当进度达到100%则隐藏进度
-                    if (progress == pd.getMax()) {
-                        pd.cancel();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onError(long id, Exception e) {
-                Log.e(TAG, "onError: ", e);
-//                if (pd != null) {
-//                    pd.cancel();
-//                    UPLOAD_CALLBACK.uploadFailed();
-//                }
-            }
-        });
+        ProgressManager.getInstance().addResponseListener(DOWNLOAD_URL, new UpdataProgressListener(pd));
     }
 
 
@@ -120,8 +93,11 @@ public class DialogUpload implements IStartUpload, Callback {
                         if (UPLOAD_CALLBACK != null) {
                             UPLOAD_CALLBACK.uploadSuccess();
                         }
+                        if (pd != null) {
+                            pd.cancel();
+                        }
                         //安装apk
-                        AutoUpdataerInstaller.install(mContext, file);
+                        AutoUpdataerInstaller.install(mContext, file, FILEPROVIDER_AUTHORITIES);
                         return;
                     }
                 } catch (Exception e) {
@@ -137,6 +113,38 @@ public class DialogUpload implements IStartUpload, Callback {
         }
         if (UPLOAD_CALLBACK != null) {
             UPLOAD_CALLBACK.uploadFailed();
+        }
+    }
+
+    static class UpdataProgressListener implements ProgressListener {
+        ProgressDialog pd;
+
+        public UpdataProgressListener(ProgressDialog pd) {
+            this.pd = pd;
+        }
+
+        @Override
+        public void onProgress(ProgressInfo progressInfo) {
+            double curent = progressInfo.getCurrentbytes();
+            double total = progressInfo.getContentLength();
+            //计算进度
+            double percent = curent / total;
+            //进度只能是0-100的整数
+            int progress = (int) (percent * 100);
+
+            if (pd != null) {
+                pd.setProgress(progress);
+                Log.d(TAG, "onProgress: " + progress);
+                //当进度达到100%则隐藏进度
+                if (progress == pd.getMax()) {
+                    pd.cancel();
+                }
+            }
+        }
+
+        @Override
+        public void onError(long id, Exception e) {
+            Log.e(TAG, "onError: ", e);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.crykid.updata.utils;
 
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,6 +21,10 @@ public class FileUtils {
 
     public static String defaultApkName() {
         return Constants.DEFAULT_APK_NAME;
+    }
+
+    public static String getPath(String packageName) {
+        return Environment.getExternalStorageDirectory() + "/" + packageName;
     }
 
 

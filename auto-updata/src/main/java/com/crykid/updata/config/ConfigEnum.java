@@ -10,6 +10,11 @@ public enum ConfigEnum {
      * apk下载目录
      */
     DESTINATION_DIR,
+
+    /**
+     * apk下载文件目录的FileProvider的authorities
+     */
+    FILEPROVIDER_AUTHORITIES,
     /**
      * apk文件名
      */

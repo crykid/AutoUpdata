@@ -1,5 +1,6 @@
 package com.crykid.updata.config;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.crykid.updata.AutoUpdataer;
@@ -22,6 +23,7 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
 
     private String url;
     private String desDir;
+    private String authorities;
     private String apkName;
     private boolean forceUpdata;
     private boolean autoDelApk;
@@ -58,21 +60,28 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
     }
 
     /**
-     * 设置apk下载目标文件夹，可以包含"/'，也可以不包含"/"
-     * the destination directory of apk,it can end with "/" or not
+     * 设置apk下载目标文件夹名字，仅仅需要目标文件夹名字！！！</br>
+     * 可以包含"/'，也可以不包含"/",
+     * the name of destination directory for apk,it can end with "/" or not
      *
      * @param dir
      * @return
      */
     @Override
-    public AutoUpdataerConfig desDir(String dir) {
-        if (TextUtils.isEmpty(dir)) {
-            throw new NullPointerException("the destination file directory of apk can not be empty !");
+    public AutoUpdataerConfig desDir(String dir, String authorities) {
+        if (TextUtils.isEmpty(dir) || TextUtils.isEmpty(authorities)) {
+            throw new NullPointerException("the name or authorities of destination  directory of apk  can not be empty !");
         }
         if (!dir.endsWith("/")) {
             this.desDir = dir + "/";
         } else {
             this.desDir = dir;
+        }
+
+        if (authorities.startsWith(".")) {
+            this.authorities = authorities;
+        } else {
+            this.authorities = "." + authorities;
         }
         return this;
     }
@@ -126,6 +135,7 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
      */
     private void setDefault() {
         this.desDir = FileUtils.defaultDir() + "/";
+        this.authorities = Constants.DEFAULT_AUTHORITIES;
         this.apkName = FileUtils.defaultApkName();
         this.forceUpdata = false;
         this.autoDelApk = false;
@@ -136,7 +146,8 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
      */
     public void configure() {
         CONFIGS.put(ConfigEnum.DOWNLOAD_URL, url);
-        CONFIGS.put(ConfigEnum.DESTINATION_DIR, desDir);
+        CONFIGS.put(ConfigEnum.DESTINATION_DIR, FileUtils.getPath(desDir));
+        CONFIGS.put(ConfigEnum.FILEPROVIDER_AUTHORITIES, authorities);
         CONFIGS.put(ConfigEnum.APK_NAME, apkName);
         CONFIGS.put(ConfigEnum.FORCE_UPDATA, forceUpdata);
         CONFIGS.put(ConfigEnum.AUTO_DEL_APK, autoDelApk);
@@ -163,7 +174,7 @@ public class AutoUpdataerConfig implements IAutoUpdataerConfig {
      * @param <T>
      * @return
      */
-    public final <T> T getConfiguration(ConfigEnum key) {
+    public final <T> T getConfiguration(@NonNull ConfigEnum key) {
         configureComplete();
         final Object o = CONFIGS.get(key);
         if (o == null) {

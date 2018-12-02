@@ -10,8 +10,8 @@ public class AtApplication extends Application {
         super.onCreate();
         AutoUpdataerConfig
                 .getInstance()
-                .url("https:\\/\\/test.95590.cn\\/nloan_test\\/aa.apk")
-//                .desDir("")
+                .url("https://test.95590.cn/nloan_test/aa.apk")
+                .desDir("auto-updata-apk","example.provider")
 //                .apkName("auto-updata")
 //                .apkName("")
                 .forceUpdata(true)

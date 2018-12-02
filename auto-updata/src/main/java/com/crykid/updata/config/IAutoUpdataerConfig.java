@@ -16,12 +16,12 @@ public interface IAutoUpdataerConfig {
     IAutoUpdataerConfig url(String url);
 
     /**
-     * 存储的目标文件夹
-     *
-     * @param desDir
+     * @param desDir      将要存储apk的文件夹名字
+     * @param authorities 文件夹的fileProvider的authorities，就是manifest里面的authorities（不包含applicationId）
+     *                    eg：name.provider,example.provider,test.provider
      * @return
      */
-    IAutoUpdataerConfig desDir(String desDir);
+    IAutoUpdataerConfig desDir(String desDir, String authorities);
 
     /**
      * apk文件名字

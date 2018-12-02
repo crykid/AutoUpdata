@@ -22,6 +22,7 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
 
     private String url;
     private String desDir;
+    private String authorities;
     private String apkName;
     private String absFileName;
     private boolean forceUpdata;
@@ -52,8 +53,8 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
     }
 
     @Override
-    public AutoUpdataer desDir(String desDir) {
-        AutoUpdataerConfig.getInstance().desDir(desDir);
+    public AutoUpdataer desDir(String desDir, String authorities) {
+        AutoUpdataerConfig.getInstance().desDir(desDir, authorities);
         return this;
     }
 
@@ -85,6 +86,7 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
         //获得所有配置
         url = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.DOWNLOAD_URL);
         desDir = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.DESTINATION_DIR);
+        authorities = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.FILEPROVIDER_AUTHORITIES);
         apkName = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.APK_NAME);
         forceUpdata = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.FORCE_UPDATA);
         autoDelApk = AutoUpdataerConfig.getInstance().getConfiguration(ConfigEnum.AUTO_DEL_APK);
@@ -108,6 +110,7 @@ public class AutoUpdataer implements IAutoUpdataerConfig {
                 context,
                 url,
                 absFileName,
+                authorities,
                 DownloadProgresser.getProcesser(context, forceUpdata),
                 callback)
                 .start();
