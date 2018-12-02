@@ -25,9 +25,10 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
         final String url = "";
 
-        //使用方式一，首先在Application中完成全部配置，然后在需要调用的地方调用下面代码
+        //不带回调的方式
         AutoUpdataer.getInstance().dialog(this);
 
+        //带回调的方式
         AutoUpdataer.getInstance().dialog(this, new IAutoUpdataerCallback() {
             @Override
             public void uploadFailed() {
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         //使用方式二，不需要application中配置，全部在使用的时候再配置
-
         AutoUpdataer
                 .getInstance()
                 //下载地址,需要完整的地址
